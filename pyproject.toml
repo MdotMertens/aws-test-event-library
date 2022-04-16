@@ -1,17 +1,16 @@
 [tool.poetry]
-name = "aws-event-test-library"
+name = "aws-test-event-library"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "A library for test events in AWS"
+authors = ["Maurice Mertens <maurice@mdotmertens.dev>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pydantic = "^1.9.0"
-pr = "^0.6.0"
 pre-commit = "^2.18.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+pre-commit = "^2.18.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
