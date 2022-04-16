@@ -1,6 +1,7 @@
 import pytest
+import json
+from typing import Any, AnyStr 
 from aws_event_test_library.events.sqs_event import SQSEvent
-
 
 def test_sqs_event_should_be_a_dict():
     event_object = SQSEvent()
@@ -33,3 +34,29 @@ def test_sqs_event_adding_none_should_throw_value_exception():
 
     with pytest.raises(ValueError):
         event_object.add_payload(None)
+
+def test_sqs_event_body_with_primitive_body_key_should_be_string():
+    event_object = SQSEvent()
+
+    event_object.add_payload({"test": 123})
+
+    event = event_object.generate_event()
+    first_record_body = event.get("Records")[0].get("body") 
+
+    assert type(first_record_body) == str 
+
+
+def test_sqs_event_body_with_complex_body_key_should_be_string():
+    event_object = SQSEvent()
+    payload = SQSEvent()
+    payload.add_payload("something")
+    event_object.add_payload(payload=payload.generate_event())
+
+    event = event_object.generate_event()
+
+    first_record_body = event.get("Records")[0].get("body") 
+    json_record_body = json.loads(first_record_body.replace("'", '"'))
+    complex_type_payload = (json_record_body.get("Records")[0].get("body"))
+
+    assert type(first_record_body) == str 
+    assert complex_type_payload == "something"

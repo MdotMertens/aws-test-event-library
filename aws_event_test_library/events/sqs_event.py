@@ -26,6 +26,7 @@ class SQSEvent:
         body_wrapper = {}
 
         for payload in self._payloads:
+            payload = str(payload) 
             body_wrapper["body"] = payload
             record_list.append(body_wrapper)
         
